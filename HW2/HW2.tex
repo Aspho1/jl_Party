@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[normalem]{ulem}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{enumerate}
+\usepackage[dvipsnames]{xcolor}
+\geometry{a4paper, portrait, margin=.6in}
+
+\newcommand{\msout}[1]{\text{\sout{\ensuremath{#1}}}}
+
+\title {EIND 464: Assignment 2}
+\date{2/7/2023}
+\author{Thomas Lipinski}
+
+\begin{document}
+\maketitle
+%\onehalfspacing
+\section*{8.2}
+
+\begin{enumerate}
+\item[2 )] \begin{center}\includegraphics[scale=.25]{8.2.2.png}\end{center}
+
+
+\item[7 )] \begin{center}\includegraphics[scale=.2567]{8.2.7.png}\end{center}
+
+\item[9 )]\begin{center}\includegraphics[scale=.19]{8.2.9.png}\end{center}
+\end{enumerate}
+
+\section*{8.3}
+
+\begin{enumerate}
+\item[4 )]\begin{center}\includegraphics[scale=.18]{8.3.4.png}\end{center}
+
+\item[7 )]\begin{center}\includegraphics[scale=.225]{8.3.7.png}\end{center}
+
+\item[15 )]\begin{center}\includegraphics[scale=.155]{8.3.15.png}\end{center}
+\end{enumerate}
+
+\section*{8.5}
+
+\begin{enumerate}
+\item[3 )]\begin{center}\includegraphics[scale=.2]{8.5.3.png}\end{center}
+
+\item[4 )]\begin{center}\includegraphics[scale=.2]{8.5.4.png}\end{center}
+
+\item[8 )] \emph{I spend a significant amount of time on this one, but final work is ChatGPT inspired.}
+
+
+
+\[\text{Minimize: }z = \sum_{i \in N} \sum_{j \in N} \sum_{k \in T} c_{i,j,k} \cdot x_{i,j,k}\]
+
+Subject to:
+
+\[\text{Subject to: }\sum_{j \in N} x_{i,j,k} - \sum_{j \in N} x_{j,i,k} = d_{i,k} \quad \forall i \in N, k \in T \textit{ Flow conservation constraints}\]
+
+\[0 \leq x_{i,j,k} \quad \forall i \in N, j \in N, k \in T \textit{ Capacity constraints}\]
+
+where
+
+$N = \{PH, NY, WA\}$ is the set of nodes representing the cities,
+
+$T = \{Mon, Tue, Wed, Thu, Fri\}$ is the set of time periods representing the days of the week,
+
+$c_{i,j,k}$ is the cost per day of transporting a van from node $i$ to node $j$ on day $k$,
+
+$d_{i,k}$ is the number of vans that must be transported from node $i$ on day $k$,
+
+$x_{i,j,k}$ is the number of vans transported from node $i$ to node $j$ on day $k$,
+
+\begin{center}\includegraphics[scale=.2]{8.5.8.png}\end{center}
+
+
+\end{enumerate}
+
+\section*{8.6}
+\begin{enumerate}
+\item[2 )]\begin{center}\includegraphics[scale=.2]{8.6.2.png}\end{center}
+\end{enumerate}
+
+\end{document}
