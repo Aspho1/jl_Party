@@ -17,9 +17,9 @@ function activate!(nodes::CircularlyLinkedList{Bool}, node_index::Int)
 end
 
 function activate(nodes::CircularlyLinkedList{Bool}, node_index::Int)
-    w = copy(nodes)
-    node_index = ((node_index - 1) % w.n) + 1
-    working_node = w.head
+    # w = copy(nodes)
+    node_index = ((node_index - 1) % nodes.n) + 1
+    working_node = nodes.head
     for _ in 1:node_index - 1
         working_node = working_node.nextNode
     end
@@ -27,7 +27,7 @@ function activate(nodes::CircularlyLinkedList{Bool}, node_index::Int)
     swap_state!(working_node)
     swap_state!(working_node.prevNode)
     swap_state!(working_node.nextNode)
-    return w
+    return nodes
 end
 
 
@@ -87,16 +87,100 @@ end
 
 
 function find_best_solution(m::CircularlyLinkedList{Bool}, remaining_depth::Int)
+    println("Start")
     for depth_i in 1:remaining_depth
         for node_i in 1:8
+            println("   Node: ", node_i)
             next_m = activate(m,node_i)
             display_circularly_linked_list(next_m)
         end
     end
 end
-testing = vector_to_cll(int_to_bool(128))
-eval(128)
-find_best_solution(testing,8)
+
+function activateV!(v::Vector{Bool}, i::Int)
+    if i == 1
+        v[8] = !v[8]
+        v[i] = !v[i]
+        v[i+1] = !v[i+1]
+    elseif i == 8
+        v[1] = !v[1]
+        v[i] = !v[i]
+        v[i-1] = !v[i-1]
+    else
+        v[i-1] = !v[i-1]
+        v[i] = !v[i]
+        v[i+1] = !v[i+1]        
+    end
+    return v
+end
+
+
+function recurseM(m::Vector{Bool}, memory::Vector{Int}, depth::Int, bestSolution::Vector{Int})
+    if all(m)
+        return length(memory) < length(bestSolution) || isempty(bestSolution) ? copy(memory) : bestSolution
+    end
+
+    if depth >= length(m)
+        return bestSolution
+    end
+    for i in 1:length(m)
+        # Avoid reactivating the same node
+        if i in memory
+            continue
+        end
+
+        # Create new temporary memory and state to test this path
+        tempmemory = [memory; i]  # Append i to the memory
+        tempm = copy(m)
+
+        activateV!(tempm, i)  # Activate the node
+        
+        # Recurse and get the result
+        candidateSolution = recurseM(tempm, tempmemory, depth + 1, bestSolution)
+
+        # If the new candidate is better, update bestSolution
+        if !isempty(candidateSolution) && (isempty(bestSolution) || length(candidateSolution) < length(bestSolution))
+            bestSolution = candidateSolution
+        end
+    end
+    
+    return bestSolution
+end
+
+
+# testing = vector_to_cll(int_to_bool(0))
+# eval(128)
+# find_best_solution(testing,1)
+# m = zeros(Int, 8)
+
+# initial = int_to_bool(15)
+# println(initial)
+mapping = Dict{Vector{Bool},Vector{Int}}()
+for i in 0:254
+
+    solution = recurseM(int_to_bool(i), Int[], 0, Vector{Int}())
+    mapping[int_to_bool(i)] = solution
+
+    # println("$i -> $out")
+end
+
+sorted = sort(collect(mapping), by=x->length(x[2]))
+
+
+println("Full list of ")
+for s in keys(sorted)
+    println("$(sorted[s][1])  ==>  $(sorted[s][2]) ")
+
+end
+# for key ∈ keys(mapping)
+
+# end
+
+# x = int_to_bool(0)
+# for i in 1:8
+#     println(activateV(x,i))
+# end
+
 
 # board = make_board();
 
